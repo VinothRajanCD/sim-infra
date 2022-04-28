@@ -1,92 +1,218 @@
+SIM Gamification Infrastructure Setup
+
 # sim-gamification-infra-setup
 
-AWS infrastructure for SIM Gamification project
+AWS Infrastructure setup for UQ Chloe
 
-## Getting started
+# Directories
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Description                                                                                           
+|-------------------|----------------------------------------------------------------------------
+| `env`     | Code to build the Infrastructure for Staging, UAT, Production, and Admin services environments.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+| `admin`   | Code to build Jenkins Server Setup.
 
-## Add your files
+| `staging` | Code to build SIM Gamification Staging env Setup.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+| `production` | Code to build SIM Gamification Production env Setup.
+
+| `modules` | It contains the AWS resources script, and the script is more generic.
+
+-------------------------------------------------------------------------------------------------
+|-------------------|
+
+# Getting started
+
+1. Configure the AWS credentials in your local environment.
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/crystaldelta/sim/sim-gamification-infra-setup.git
-git branch -M main
-git push -uf origin main
+aws configure --profile #profile_name (It can be anything)
+AWS Access Key ID [None]: #paste your AWS access key
+AWS Secret Access Key [None]: #paste your secret access key
+Default region name [None]: #Enter the region name that you want to create the environment. (eg: ap-southeast-2)
+Default output format [None]: #ENter the output format that you want to return. (eg: json)
+
+```
+2. Export the AWS Profile that you created in step 1.
+
+```
+export AWS_PROFILE=#profile_name
+
 ```
 
-## Integrate with your tools
+3. Lets deploy the Infrastructure
+  
+  a. Initialise the terraform in your environment
 
-- [ ] [Set up project integrations](https://gitlab.com/crystaldelta/sim/sim-gamification-infra-setup/-/settings/integrations)
+      $ terraform init
 
-## Collaborate with your team
+  b. Check whether the configuration is valid
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+      $ terraform validate 
 
-## Test and Deploy
+  c. Show changes required by the current configuration
 
-Use the built-in continuous integration in GitLab.
+      $ terraform plan
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+  d. Create or update infrastructure       
 
-***
+      $ terraform apply
 
-# Editing this README
+4. We have the option to deploy the specific AWS resources to specific modules by using the below commands 
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+```
+(a). Now, let us create a plan for the VPC (Virtual Private Cloud) stack
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+$ terraform plan -target=module.vpc
 
-## Name
-Choose a self-explaining name for your project.
+Once you are satisfied with your service, deploy the scripts by running the apply command.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+$ terraform apply -target=module.vpc
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+(Or) If you want to create a specific service inside the module, run the below command.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+$ terraform plan -target=module.aws_vpc.main (point the resource name in the module)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+It will again list the services that you are going to create and it will ask for user confirmation. you need to enter [Yes] to deploy the terraform scripts.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+(b). Now, let's create a plan for the Security stack.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+$ terraform plan -target=module.security
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Once you are satisfied with your service deploy the scripts by running the apply command.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+$ terraform apply -target=module.security
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+(c). Now, let's create a plan for the ACM (AWS Certificate Manager) stack 
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+$ terraform plan -target=module.acm
 
-## License
-For open source projects, say how it is licensed.
+Once you reviewed the plan let's deploy,
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+$ terraform apply -target=module.acm
+
+(d). Now, let's create a plan for the ALB (Application Load Balancer) stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.alb
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.alb
+
+(e). Now, let's create a plan for the ECR (Elastic Container Registry) stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.ecr
+
+Once you reviewed the plan let's deploy
+
+$ terraform apply -target=module.ecr
+
+(f). Now, let's create a plan for the Secret Manager stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.secret_manager
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.secret_manager
+
+(g). Now, let's create a plan for the IAM (Identity Access Management) stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.iam
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.iam
+
+(h). Now, let's create a plan for the KMS (Key Management Service) stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.kms
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.kms
+
+(i). Now, let's create a plan for the RDS (Relational Database Service) stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.rds
+
+Enter the user name and password for the DB and store the credentials in a secure place, If you lose the credentials we cannot able to retrieve them back.
+
+Once you reviewed the plan let's deploy
+
+$ terraform apply -target=module.rds
+
+(j) Now, let's create a plan for the CloudWatch stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.cloudwatch
+
+Once you reviewed the plan let's deploy
+
+$ terraform apply -target=module.cloudwatch
+
+(k). Now, let's create a plan for the S3 (Simple Storage Service) stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.s3
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.s3
+
+(l). Now, let's create a plan for the Cloudfront stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.cloudfront
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.cloudfront
+
+(m). Now, let's create a plan for the ECS stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.ecs
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.ecs
+
+```
+
+# CI/CD Setup
+
+1. Admin folder contains the CI/CD pipeline setup script
+
+2. We have the terraform script for VPC, EC2 instance, ALB, Security Group under "admin" folder
+
+3. Commands to launch the CI/CD setup
+
+```
+
+(a). Initialise the terraform in your environment [./env/admin]
+
+      $ cd ./env/admin
+      $ terraform init
+
+(a). Now, let's create a plan for the vpc stack and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.vpc
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.vpc
+
+(b). Now, let's create a plan for the bastion server and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.bastion_server
+
+Once you reviewed the plan let's deploy,
+
+$ terraform apply -target=module.bastion_server
+
+(c). Now, let's create a plan for the Jenkins server and deploy it after reviewing the plan.
+
+$ terraform plan -target=module.jenkins_server
+
+Once you reviewed the plan let's deploy
+
+$ terraform apply -target=module.jenkins_server
+
+```
