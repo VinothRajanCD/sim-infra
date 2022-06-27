@@ -192,3 +192,16 @@ module "ecs" {
   lti_secret_manager_arn  = module.secret_manager.lti_secret_manager_arn.arn
   env_name                = var.env_name
 }
+module "rds_cloudwatch_metric" {
+  source                            = "git::git@gitlab.com:crystaldelta/cd-devops/rds-cloudwatch-metric-alarm.git//aws/module/rds_cloudwatch_metric"
+  sns_topic_name                    = var.sns_topic_name
+  sns_display_name                  = var.sns_display_name
+  cpu_utilization_high_alarm_name   = var.cpu_utilization_high_alarm_name
+  freeable_memory_low_alarm_name    = var.freeable_memory_low_alarm_name
+  free_storage_space_low_alarm_name = var.free_storage_space_low_alarm_name
+  db_instance_id                    = var.db_instance_id
+  cpu_utilization_threshold         = var.cpu_utilization_threshold
+  # Memory and storage range should be in byte format
+  freeable_memory_threshold         = var.freeable_memory_threshold # 1GB - 1073741824 Byte
+  free_storage_space_threshold      = var.free_storage_space_threshold # 10GB - 10737418240 Byte
+}
