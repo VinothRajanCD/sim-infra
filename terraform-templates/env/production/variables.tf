@@ -100,3 +100,39 @@ variable "IAMUser" {
   description = "IAM user for administrating"
   default = "sim-prod-infra-setup"
 }
+variable "sns_topic_name" {
+  description = "SNS Topic Name."
+  default = "SIM-lti-Production-DB-Alert"
+}
+variable "sns_display_name" {
+  description = "SNS Display Name."
+  default = "SIM lti Production DB Alert"
+}
+variable "cpu_utilization_high_alarm_name" {
+  description = "The alarm name of the RDS DB CPU utilization high"
+  default = "sim_lti_prod_cpu_utilization_high"
+}
+variable "freeable_memory_low_alarm_name" {
+  description = "The alarm name of the RDS DB low memory"
+  default = "sim_lti_prod_freeable_memory_low"
+}
+variable "free_storage_space_low_alarm_name" {
+  description = "The alarm name of the RDS DB low storage space"
+  default = "sim_lti_prod_free_storage_space_low"
+}
+variable "db_instance_id" {
+  description = "The instance ID of the RDS database instance that you want to monitor."
+  default = "sim-lti-prod-lti-db"
+}
+variable "cpu_utilization_threshold" {
+  description = "The maximum percentage of CPU utilization."
+  default = 80
+}
+variable "freeable_memory_threshold" {
+  description = "The minimum amount of available random access memory in Byte."
+  default = 209715200
+}
+variable "free_storage_space_threshold" {
+  description = "The minimum amount of available storage space in Byte."
+  default = 5368709120
+}
