@@ -50,53 +50,53 @@ variable "db_instance_class" {
   description = "Instance class of the DB"
   default     = "db.t3.micro"
 }
-variable "master_user" {
-  description = "Mysql DB username"
-}
-variable "master_password" {
-  description = "Mysql DB password"
-}
-variable "allocated_storage" {
-  description = "RDS Allocated Storage"
-  default     = 20
-}
-variable "backup_retention_period" {
-  description = "Number of days to backup the DB"
-  default     = 7
-}
-variable "multi_az" {
-  description = "Enabling multi availablity zone"
-  default     = false
-}
-variable "fargate_cpu" {
-  description = "The number of cpu units used by the task."
-  default     = 512
-}
-variable "fargate_memory" {
-  description = "The amount (in MiB) of memory used by the task."
-  default     = 1024
-}
-variable "desired_count" {
-  description = "Number of instances of the task definition to place and keep running."
-  default     = 1
-}
-variable "soft_memory_reservation" {
-  description = "The soft limit (in MiB) of memory to reserve for the container."
-  default     = 512
-}
-variable "cluster_count" {
-  description = "Redis cluster count"
-  default     = 1
-}
-variable "principal_accounts" {
-  description = "Accounts which are making request to this Key"
-  default = "arn:aws:iam::176370729502:root"
-}
-variable "accountID" {
-  description = "AWS account ID"
-  default = "176370729502"
-}
-variable "IAMUser" {
-  description = "IAM user for administrating"
-  default = "sim-stg-infra-setup"
-}
+# variable "master_user" {
+#   description = "Mysql DB username"
+# }
+# variable "master_password" {
+#   description = "Mysql DB password"
+# }
+# variable "allocated_storage" {
+#   description = "RDS Allocated Storage"
+#   default     = 20
+# }
+# variable "backup_retention_period" {
+#   description = "Number of days to backup the DB"
+#   default     = 7
+# }
+# variable "multi_az" {
+#   description = "Enabling multi availablity zone"
+#   default     = false
+# }
+# variable "fargate_cpu" {
+#   description = "The number of cpu units used by the task."
+#   default     = 512
+# }
+# variable "fargate_memory" {
+#   description = "The amount (in MiB) of memory used by the task."
+#   default     = 1024
+# }
+# variable "desired_count" {
+#   description = "Number of instances of the task definition to place and keep running."
+#   default     = 1
+# }
+# variable "soft_memory_reservation" {
+#   description = "The soft limit (in MiB) of memory to reserve for the container."
+#   default     = 512
+# }
+# variable "cluster_count" {
+#   description = "Redis cluster count"
+#   default     = 1
+# }
+# variable "principal_accounts" {
+#   description = "Accounts which are making request to this Key"
+#   default = "arn:aws:iam::176370729502:root"
+# }
+# variable "accountID" {
+#   description = "AWS account ID"
+#   default = "176370729502"
+# }
+# variable "IAMUser" {
+#   description = "IAM user for administrating"
+#   default = "sim-stg-infra-setup"
+# }
