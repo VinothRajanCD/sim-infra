@@ -1,0 +1,36 @@
+name: App Infra Plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      Resource:
+        description: 'Resource to Plan'
+        required: true
+
+env:
+  AWS_REGION: ap-southeast-2
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        run: aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} && aws configure set default.region ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform-templates/env/staging
+
+      - name: Terraform Plan
+        run: terraform plan -target=module.${{ github.event.inputs.Resource }}
+        working-directory: ./terraform-templates/env/staging
+        env:
+          TF_VAR_environment: staging
+          AWS_REGION: ap-southeast-2
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
