@@ -11,21 +11,21 @@ provider "aws" {
   region                  = "us-east-1"
   alias                   = "edtech-nonprod"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "your-aws-account-profile-goes-here"
+  profile                 = "edtech-nonprod"
 }
 
 provider "aws" {
   region                  = "us-east-1"
   alias                   = "sim-nonprod"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "your-aws-account-profile-goes-here"
+  profile                 = "sim-nonprod"
 }
 
 provider "aws" {
   region                  = "ap-southeast-1"
   alias                   = "sim-nonprod-singapore"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "your-aws-account-profile-goes-here"
+  profile                 = "sim-nonprod"
 }
 
 data "aws_route53_zone" "domain" {

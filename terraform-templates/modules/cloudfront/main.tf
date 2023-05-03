@@ -11,14 +11,14 @@ provider "aws" {
   region                  = "us-east-1"
   alias                   = "edtech-nonprod"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "your-aws-account-profile-goes-here"
+  profile                 = "sim-nonprod"
 }
 
 provider "aws" {
   region                  = "ap-southeast-1"
   alias                   = "sim-nonprod"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "your-aws-account-profile-goes-here"
+  profile                 = "sim-nonprod"
 }
 
 resource "aws_cloudfront_origin_access_identity" "cdn_access_identity" {

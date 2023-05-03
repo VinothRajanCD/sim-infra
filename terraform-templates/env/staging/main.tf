@@ -10,7 +10,7 @@ terraform {
 provider "aws" {
   region                  = "ap-southeast-1"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "devops-sandbox"
+  profile                 = "sim-nonprod"
 }
 
 # S3 bUCKET FOR STORING THE TERRAFORM STATE
